@@ -57,7 +57,7 @@ Find out more at [Semantic-SAM](https://github.com/UX-Decoder/Semantic-SAM)
 
 ### 2. Datasets
 
-Please refer to the link [AVSBenchmark](https://github.com/OpenNLPLab/AVSBench) to download the datasets. You need to put the data under the `../AVS_dataset`. The folder tree shall look like:
+Please refer to the link [AVSBenchmark](https://github.com/OpenNLPLab/AVSBench) to download the datasets. You need to put the data under the `./AVS_dataset`. The folder tree shall look like:
 
 ```
 |--AVS_dataset
@@ -72,38 +72,13 @@ Then run the scripts below to preprocess the AVSS dataset for efficient training
 python3 avs_tools/preprocess_avss_audio.py
 python3 avs_tools/process_avssimg2fixsize.py
 ```
-To generate the proposed MSAI in this work, you should run the scripts below:
-```
-python ./avs_tools/preprocess_avss_audio.py  # for AVSS dataset
-python ./avs_tools/preprocess_s3_audio.py # for MS3 dataset
-python ./avs_tools/preprocess_s4_audio.py # for S4 dataset
-```
-Then you can obtain the file tree:
-```
-|--AVS_dataset
-     |--AVSBench_object/Multi-sources/ms3_data
-       |--audio_wav_256_96_new_scale
-       |--audio_wav_512_96_new_scale
-       |--audio_wav_1024_96_new_scale
-    |--AVSBench_object/Single-source/s4_data
-       |--audio_wav_256_96_new_scale
-       |--audio_wav_512_96_new_scale
-       |--audio_wav_1024_96_new_scale
-    |--AVSBench_semantic
-       |--v1m
-          |--_19NVGk6Zt8_0
-             |--audio_wav_256_96_new_scale.pkl
-             |--audio_wav_512_96_new_scale.pkl
-             |--audio_wav_1024_96_new_scale.pkl
-    ...
-```
 
 ### 3. Download Pre-Trained Models
 
 - The pretrained visual backbone (ResNet-50 and PVT-v2) is available from benchmark AVSBench pretrained backbones [YannQi/COMBO-AVS-checkpoints · Hugging Face](https://huggingface.co/YannQi/COMBO-AVS-checkpoints).
 - The pretrained acoustic backbone (CED-Mini) is available from [CED-Mini](https://huggingface.co/mispeech/ced-mini).
 
-After you finish downloading, put the weights under the `../pretrained`. 
+After you finish downloading, put the weights under the `./pretrained`. 
 
 ```
 |--pretrained
@@ -143,30 +118,18 @@ The file tree shall look like:
 ```
 
 ## Train and Test
-To record the training iteration, we add several lines of codes in the `conda_envs/xxx/lib/python3.xx/site-packages/detectron2/engine/hooks.py`.
-The codes are located in the function named `after_step` (lines 547–560), as shown below:
-```
-def after_step(self):
-        next_iter = self.trainer.iter + 1
-        if self._period > 0 and next_iter % self._period == 0 :
-            with open ('iter.txt', 'w') as f:
-                f.write(str(self.trainer.iter))
-                f.close()
-            if next_iter != self.trainer.max_iter:
-                self._do_eval()
-```
-Then you can start to train and test. The scripts for training and testing are put under `./scripts`.
+The scripts for training and testing are put under `./scripts`.
 ### 1. Train
 
 ```shell
-# ResNet-50 (Attention! The scripts below are under `./NTAVS_R50` folder.)
+# ResNet-50 
 sh scripts/res_train_avs4.sh
 sh scripts/res_train_avms3.sh
 sh scripts/res_train_avss.sh
 ```
 
 ```shell
-# PVTv2 (Attention! The scripts below are under `./NTAVS_PVT` folder.)
+# PVTv2 
 sh scripts/pvt_train_avs4.sh
 sh scripts/pvt_train_avms3.sh
 sh scripts/pvt_train_avss.sh
@@ -175,14 +138,14 @@ sh scripts/pvt_train_avss.sh
 ### 2. Test
 After you finish the training process, you can evaluate the best checkpoints by the commands below:
 ```shell
-# ResNet-50 (Attention! The scripts below are under `./NTAVS_R50` folder.)
+# ResNet-50 
 sh scripts/res_test_avs4.sh
 sh scripts/res_test_avms3.sh
 sh scripts/res_test_avss.sh
 ```
 
 ```shell
-# PVTv2 (Attention! The scripts below are under `./NTAVS_PVT` folder.)
+# PVTv2
 sh scripts/pvt_test_avs4.sh
 sh scripts/pvt_test_avms3.sh
 sh scripts/pvt_test_avss.sh
