@@ -1,4 +1,4 @@
-name: NTAVS
+name: AV2TS
 channels:
   - http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
   - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
@@ -250,4 +250,4 @@ dependencies:
       - yacs==0.1.8
       - yarl==1.9.4
       - zipp==3.19.2
-prefix: /home/lhg/anaconda3/envs/NTAVS
+prefix: /home/lhg/anaconda3/envs/AV2TS
